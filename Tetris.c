@@ -31,6 +31,21 @@ typedef struct
     char rotates[4][4][4];
 }Shape;
 
+typedef struct {
+    int x;
+    int y;
+    int score;
+    int rotate;
+    int fallTime;
+    ShapeId queue[4];
+}State;
+
+typedef struct {
+    Color color;
+    ShapeId shape;
+    bool current;
+}Block;
+
 Shape shapes[7] =
 {
     {
@@ -224,8 +239,17 @@ Shape shapes[7] =
     },
 };
 
+void setBlock(Block* block, Color color, ShapeId shape, bool current)
+{
+    block->color = color;
+    block->shape = shape;
+    block->current = current;
+
+}
+
 int main()
 {
+    Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH];
     Color cur;
     // 幾種方塊 (目前只有 I)
     for (int i = 0; i < 7; i++) {
